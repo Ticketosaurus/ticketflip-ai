@@ -53,3 +53,16 @@ for event in events:
 
 st.markdown("---")
 st.caption("This is an early version. Data is simulated.")
+
+# --- Optional Sidebar ---
+st.sidebar.header("Filters & Tools")
+show_live = st.sidebar.checkbox("Show Sample Ticket Listings", value=True)
+
+if show_live:
+    st.sidebar.markdown("### Example Listings (Simulated)")
+    st.sidebar.write("**StubHub** – Taylor Swift – £295 (VIP)")
+    st.sidebar.write("**Viagogo** – BBC Radio 1 – £115 (Standard)")
+    st.sidebar.write("**StubHub** – Taylor Swift – £270 (Upper Tier)")
+
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("More live listings coming soon...")
