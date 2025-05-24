@@ -66,3 +66,25 @@ if show_live:
 
     st.sidebar.markdown("---")
     st.sidebar.markdown("More live listings coming soon...")
+
+# --- Auto Opportunity Detector ---
+st.header("Flip Recommendations")
+
+sample_market = [
+    {"event": "Taylor Swift – Wembley", "face_value": 110, "resale_price": 290},
+    {"event": "BBC Radio 1 Big Weekend", "face_value": 37.5, "resale_price": 85},
+    {"event": "Coldplay – Cardiff", "face_value": 95, "resale_price": 105},
+    {"event": "The Killers – Manchester", "face_value": 70, "resale_price": 135},
+    {"event": "Elton John – Birmingham", "face_value": 120, "resale_price": 115},  # No profit
+]
+
+profitable = [
+    item for item in sample_market if item["resale_price"] > item["face_value"] * 1.2
+]
+
+if profitable:
+    for item in profitable:
+        profit = item["resale_price"] - item["face_value"]
+        st.success(f"**{item['event']}**: Buy at £{item['face_value']} → Sell for £{item['resale_price']} → Profit: £{profit}")
+else:
+    st.warning("No strong flips currently detected.")
