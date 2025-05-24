@@ -88,3 +88,22 @@ if profitable:
         st.success(f"**{item['event']}**: Buy at £{item['face_value']} → Sell for £{item['resale_price']} → Profit: £{profit}")
 else:
     st.warning("No strong flips currently detected.")
+
+# --- Learning from Past Flips ---
+st.header("Flip Feedback Trainer")
+
+st.subheader("How accurate was our prediction?")
+feedback_event = st.selectbox("Select the event", ["Taylor Swift – Wembley", "BBC Radio 1 Big Weekend", "Coldplay – Cardiff"])
+actual_price = st.number_input("Actual Resale Price Achieved (£)", min_value=0.0)
+
+if st.button("Submit Feedback"):
+    # Dummy learning logic (replace with ML model in future)
+    if actual_price:
+        predicted = 300 if feedback_event == "Taylor Swift – Wembley" else 120
+        error = abs(predicted - actual_price)
+        confidence = max(0, 100 - error)
+
+        st.success(f"Prediction error: £{error:.2f}")
+        st.info(f"Confidence in future predictions for similar events: {confidence:.1f}%")
+    else:
+        st.warning("Enter an actual resale price first.")
