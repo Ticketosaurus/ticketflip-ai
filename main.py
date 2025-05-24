@@ -1,45 +1,55 @@
-
 import streamlit as st
+import datetime
 import matplotlib.pyplot as plt
 
-# Sample ticket data
+# Sample ticket data (this would be replaced by scraped/live data)
 events = [
     {
-        "name": "Taylor Swift – Wembley",
+        "event": "Taylor Swift – Wembley",
         "date": "2025-08-21",
         "face_value": 110,
-        "resale_prices": [150, 175, 200, 250, 275, 300],
+        "peak_price": 300,
     },
     {
-        "name": "BBC Radio 1 Big Weekend",
+        "event": "BBC Radio 1 Big Weekend",
         "date": "2025-05-25",
-        "face_value": 37.5,
-        "resale_prices": [60, 70, 85, 100, 110, 120],
+        "face_value": 37.50,
+        "peak_price": 120,
     }
 ]
 
-def analyze_event(event):
-    prices = event["resale_prices"]
-    face_value = event["face_value"]
-    peak_price = max(prices)
-    profit = peak_price - face_value
-    optimal_day = prices.index(peak_price)
-    return {
-        "peak_price": peak_price,
-        "estimated_profit": profit,
-        "sell_advice": f"Sell {len(prices) - optimal_day} day(s) before event"
-    }
-
 # Streamlit UI
+st.set_page_config(page_title="TicketFlip AI – Profit Dashboard", layout="wide")
 st.title("TicketFlip AI – Profit Dashboard")
 
 for event in events:
-    st.subheader(event["name"])
-    st.write(f"Date: {event['date']}")
-    st.write(f"Face Value: £{event['face_value']}")
-    result = analyze_event(event)
-    st.write(f"**Predicted Peak Price:** £{result['peak_price']}")
-    st.write(f"**Estimated Profit:** £{result['estimated_profit']}")
-    st.write(f"**Advice:** {result['sell_advice']}")
-    st.line_chart(event["resale_prices"])
-    st.markdown("---")
+    st.subheader(event["event"])
+    st.write(f"**Date:** {event['date']}")
+    st.write(f"**Face Value:** £{event['face_value']}")
+    st.write(f"**Predicted Peak Price:** £{event['peak_price']}")
+
+    profit = event["peak_price"] - event["face_value"]
+    st.write(f"**Estimated Profit:** £{profit}")
+
+    st.write("**Advice:** Sell 1 day(s) before event")
+
+    # Simulated price growth chart
+    days = [0, 1, 2, 3, 4, 5]
+    prices = [
+        event["face_value"] * 1.35,
+        event["face_value"] * 1.5,
+        event["face_value"] * 1.82,
+        event["face_value"] * 2.25,
+        event["face_value"] * 2.5,
+        event["peak_price"],
+    ]
+
+    fig, ax = plt.subplots()
+    ax.plot(days, prices, marker="o")
+    ax.set_xlabel("Weeks Before Event")
+    ax.set_ylabel("Resale Price (£)")
+    ax.set_title("Projected Price Trend")
+    st.pyplot(fig)
+
+st.markdown("---")
+st.caption("This is an early version. Data is simulated.")
